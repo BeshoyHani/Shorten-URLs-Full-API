@@ -1,10 +1,20 @@
-export default interface ILink{
+export default interface ILink {
+    _id?: string,
     userID: String,
     shortURL: String,
     originalURL: String,
     date: Date,
     clicks: Number,
-    title: String,
-    description: String,
-    category: String,
+    title: {
+        type: String,
+        default: ''
+    }
+    description: {
+        type: String,
+        default: ''
+    }
+    category: {
+        type: String,
+        default: 'None'
+    }
 }

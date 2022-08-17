@@ -56,4 +56,19 @@ export default class User {
         }
     }
 
+    async update(userID: string, password: string): Promise<IUser | null> {
+        try {
+            const salt_rounds = +(process.env.SALT_ROUNDS as unknown as number);
+            const hashed_pwd = await bcrypt.hash(password, salt_rounds);
+
+            await connectDB();
+            const user = await User_Model.findByIdAndUpdate(userID, { password: hashed_pwd });
+            disconnectDB();
+            return user;
+        } catch (error) {
+            disconnectDB();
+            throw Error((error as Error).message);
+        }
+    }
+
 }

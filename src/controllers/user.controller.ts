@@ -13,11 +13,7 @@ const validate_user_input = (username: string, password: string): boolean => {
 
 export const login = async (_req: Request, res: Response): Promise<void> => {
 
-    const {username, password} = _req.body;
-    if (!validate_user_input(username, password)) {
-        res.status(500).json('Both username and password are required');
-        return;
-    }
+    const { username, password } = _req.body;
     try {
         const user = await User.login(username, password);
         const token = jwt.sign({ user }, process.env.TOKEN_SECRET as string);
@@ -28,17 +24,23 @@ export const login = async (_req: Request, res: Response): Promise<void> => {
 }
 
 export const register = async (_req: Request, res: Response): Promise<void> => {
-
-    console.log(_req.body)
-    const {username, password} = _req.body;
-    if (!validate_user_input(username, password)) {
-        res.status(500).json('Both username and password are required');
-        return;
-    }
+    const { username, password } = _req.body;
     try {
         const user = await User.register(username, password);
         res.status(200).json(`user ${username} is created successfully`);
     } catch (error) {
-        res.status(404).json((error as Error).message);
+        res.status(409).json((error as Error).message);
     }
+}
+
+export const update_user = async (_req: Request, res: Response): Promise<void> => {
+    const { password } = _req.body;
+    const userID = _req.user._id as string;
+    try {
+        const user = await User.update(userID, password);
+        res.status(200).json(`user ${user?.username} is updated successfully`);
+    } catch (error) {
+        res.status(500).json((error as Error).message);
+    }
+
 }

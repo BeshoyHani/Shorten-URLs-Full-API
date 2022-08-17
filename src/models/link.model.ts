@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { nanoid } from "nanoid/async";
 import { connectDB, disconnectDB } from "../db/db.js";
 import ILink from './../interfaces/link.interface.js';
+const resultsPerPage = 10;
 
 const Link_Schema = new mongoose.Schema<ILink>({
     userID: String,
@@ -68,10 +69,42 @@ export default class Link {
         }
     }
 
-    async findMyURLs(userID: string): Promise<ILink[] | null | undefined> {
+    async updateURLInfo(linkID: string, title: string, description: string, category: string): Promise<ILink | null | undefined> {
         try {
             await connectDB();
-            const link = await Link_Model.find({ userID: userID });
+            const link = await Link_Model.findByIdAndUpdate(linkID, { $set: { title, description, category } });
+            disconnectDB();
+            return link;
+        } catch (err) {
+            disconnectDB();
+            console.log(err);
+        }
+    }
+
+    async findMyURLs(userID: string, pageNo: number): Promise<ILink[] | null | undefined> {
+        try {
+            await connectDB();
+            const link = await Link_Model.find({ userID: userID }, null, { limit: resultsPerPage, skip: (pageNo - 1) * resultsPerPage });
+            disconnectDB();
+            return link;
+        } catch (err) {
+            disconnectDB();
+            console.log(err);
+        }
+    }
+
+    async searchForURL(userID: string, keywords: string): Promise<ILink[] | null | undefined> {
+        try {
+            await connectDB();
+            const link = await Link_Model.find({
+                $and: [
+                    { userID: userID },
+                    {
+                        $or: [{ title: { "$regex": keywords, "$options": "i" } },
+                        { description: { "$regex": keywords, "$options": "i" } }]
+                    }
+                ]
+            });
             disconnectDB();
             return link;
         } catch (err) {
