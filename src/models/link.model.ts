@@ -23,17 +23,29 @@ const Link_Schema = new mongoose.Schema<ILink>({
         type: Number,
         default: 0
     },
-
-    title: String,
-    description: String,
-    category: String,
+    img: {
+        type: String,
+        default: ''
+    },
+    title: {
+        type: String,
+        default: ''
+    },
+    description: {
+        type: String,
+        default: ''
+    },
+    category: {
+        type: String,
+        default: 'None'
+    }
 });
 
 const Link_Model = mongoose.model('link', Link_Schema);
 
 export default class Link {
 
-    async shortenURL(userID: string, originalURL: string, title: string, description: string, category: string):
+    async shortenURL(userID: string, originalURL: string, title: string, description: string, category: string, url_preview: string):
         Promise<ILink | undefined> {
         try {
             const shortURL = await nanoid(15);
@@ -43,6 +55,7 @@ export default class Link {
                 shortURL: shortURL,
                 originalURL: originalURL,
                 title: title,
+                img: url_preview,
                 description: description,
                 category: category
             });

@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import "dotenv/config";
 import link_router from './routes/link.route.js';
 import user_router from './routes/user.route.js';
+import { generate_preview_img } from './controllers/URLPreview.controller';
 const app = express();
 
 // app.get('/', async (_req: Request, res: Response, next: NextFunction) => {

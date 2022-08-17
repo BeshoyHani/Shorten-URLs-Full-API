@@ -5,16 +5,8 @@ export default interface ILink {
     originalURL: String,
     date: Date,
     clicks: Number,
-    title: {
-        type: String,
-        default: ''
-    }
-    description: {
-        type: String,
-        default: ''
-    }
-    category: {
-        type: String,
-        default: 'None'
-    }
+    img: string,
+    title: String,
+    description: String,
+    category: String,
 }
