@@ -23,6 +23,7 @@ export const getUserID = (_req: Request, res: Response, next: NextFunction) => {
         _req.user = {
             _id: '',
             username: '',
+            email: '',
             password: ''
         };
     }

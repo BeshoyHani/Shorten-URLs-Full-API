@@ -20,7 +20,7 @@ export const shorten_url = async (_req: Request, res: Response): Promise<void> =
     const { originalURL, title, description, category } = _req.body;
     const url_preview_link = await generate_preview_img(originalURL);
     try {
-        const link = await Link.shortenURL(userID, originalURL, title, description, category, url_preview_link);
+        const link = await Link.shortenURL(userID, originalURL, title, category, url_preview_link);
         res.status(200).json(link);
         if (!userID) {
             setTimeout(() => {
@@ -53,7 +53,7 @@ export const update_link_info = async (_req: Request, res: Response): Promise<vo
         return;
     }
     try {
-        await Link.updateURLInfo(linkID, title, description, category);
+        await Link.updateURLInfo(linkID, title, category);
         res.status(200).json('Updated Successfully');
     } catch (error) {
         res.status(500).json((error as Error).message);

@@ -13,9 +13,9 @@ const validate_user_input = (username: string, password: string): boolean => {
 
 export const login = async (_req: Request, res: Response): Promise<void> => {
 
-    const { username, password } = _req.body;
+    const { username, email, password } = _req.body;
     try {
-        const user = await User.login(username, password);
+        const user = await User.login(username, email, password);
         const token = jwt.sign({ user }, process.env.TOKEN_SECRET as string);
         res.status(200).json({ token });
     } catch (error) {
@@ -24,9 +24,9 @@ export const login = async (_req: Request, res: Response): Promise<void> => {
 }
 
 export const register = async (_req: Request, res: Response): Promise<void> => {
-    const { username, password } = _req.body;
+    const { username, email, password } = _req.body;
     try {
-        const user = await User.register(username, password);
+        const user = await User.register(username, email, password);
         res.status(200).json(`user ${username} is created successfully`);
     } catch (error) {
         res.status(409).json((error as Error).message);

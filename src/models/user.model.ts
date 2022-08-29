@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema<IUser>({
-    _id: { type: String },
+    email: { type: String },
     username: { type: String, required: true },
     password: { type: String, required: true }
 });
@@ -13,10 +13,14 @@ const User_Model = mongoose.model('user', userSchema);
 
 export default class User {
 
-    async login(username: string, password: string): Promise<IUser> {
+    async login(username: string, email: string, password: string): Promise<IUser> {
         try {
             await connectDB();
-            const user = await User_Model.findOne({ username: username.toLowerCase() });
+            const user = await User_Model.findOne(
+                {
+                    $or: [{ username: username.toLowerCase() }, { email: email.toLowerCase() }]
+                });
+
             if (!user) {
                 throw Error('User does not exist')
             }
@@ -33,10 +37,13 @@ export default class User {
         }
     }
 
-    async register(username: string, password: string): Promise<IUser | undefined> {
+    async register(username: string, email: string, password: string): Promise<IUser | undefined> {
         try {
             await connectDB();
-            const already_exsists = await User_Model.findOne({ username: username.toLowerCase() });
+            const already_exsists = await User_Model.findOne(
+                {
+                    $or: [{ username: username.toLowerCase() }, { email: email.toLowerCase() }]
+                });
             if (already_exsists) {
                 throw Error('User Already Exsists');
             }
@@ -44,6 +51,7 @@ export default class User {
             const hashed_pwd = await bcrypt.hash(password, salt_rounds);
             const user = new User_Model({
                 username: username.toLowerCase(),
+                email: email.toLowerCase(),
                 password: hashed_pwd
             });
             await user.save();

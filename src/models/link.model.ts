@@ -31,10 +31,6 @@ const Link_Schema = new mongoose.Schema<ILink>({
         type: String,
         default: ''
     },
-    description: {
-        type: String,
-        default: ''
-    },
     category: {
         type: String,
         default: 'None'
@@ -45,7 +41,7 @@ const Link_Model = mongoose.model('link', Link_Schema);
 
 export default class Link {
 
-    async shortenURL(userID: string, originalURL: string, title: string, description: string, category: string, url_preview: string):
+    async shortenURL(userID: string, originalURL: string, title: string, category: string, url_preview: string):
         Promise<ILink | undefined> {
         try {
             const shortURL = await nanoid(15);
@@ -56,7 +52,6 @@ export default class Link {
                 originalURL: originalURL,
                 title: title,
                 img: url_preview,
-                description: description,
                 category: category
             });
             await link.save();
@@ -82,10 +77,10 @@ export default class Link {
         }
     }
 
-    async updateURLInfo(linkID: string, title: string, description: string, category: string): Promise<ILink | null | undefined> {
+    async updateURLInfo(linkID: string, title: string, category: string): Promise<ILink | null | undefined> {
         try {
             await connectDB();
-            const link = await Link_Model.findByIdAndUpdate(linkID, { $set: { title, description, category } });
+            const link = await Link_Model.findByIdAndUpdate(linkID, { $set: { title, category } });
             disconnectDB();
             return link;
         } catch (err) {
@@ -114,7 +109,7 @@ export default class Link {
                     { userID: userID },
                     {
                         $or: [{ title: { "$regex": keywords, "$options": "i" } },
-                        { description: { "$regex": keywords, "$options": "i" } }]
+                        { category: { "$regex": keywords, "$options": "i" } }]
                     }
                 ]
             });

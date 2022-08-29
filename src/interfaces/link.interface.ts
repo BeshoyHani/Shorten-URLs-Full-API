@@ -7,6 +7,5 @@ export default interface ILink {
     clicks: Number,
     img: string,
     title: String,
-    description: String,
     category: String,
 }
