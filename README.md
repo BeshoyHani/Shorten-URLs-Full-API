@@ -24,7 +24,7 @@ an API to shorten URLs. It also works as URL store where you can save your short
 | Action | Method | Route | Parameters | Token|
 | ------------- | ------------- | -------------| ------------- | ------ |
 | Create User  | `POST`  | `/register` | username* <br> email* <br> password*   | Not Required |
-| Sign in  | `POST`  | `/login` | (username \|\| email) *<br> password* | Not Required |
+| Sign in  | `POST`  | `/login` | (username \|\| email)\*<br> password* | Not Required |
 | update password | `POST`  | `/account/edit` | password* | Required |
 
 ## URL

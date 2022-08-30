@@ -18,7 +18,7 @@ export default class User {
             await connectDB();
             const user = await User_Model.findOne(
                 {
-                    $or: [{ username: username.toLowerCase() }, { email: email.toLowerCase() }]
+                    $or: [{ username: username?.toLowerCase() }, { email: email?.toLowerCase() }]
                 });
 
             if (!user) {
@@ -42,7 +42,7 @@ export default class User {
             await connectDB();
             const already_exsists = await User_Model.findOne(
                 {
-                    $or: [{ username: username.toLowerCase() }, { email: email.toLowerCase() }]
+                    $or: [{ username: username?.toLowerCase() }, { email: email?.toLowerCase() }]
                 });
             if (already_exsists) {
                 throw Error('User Already Exsists');

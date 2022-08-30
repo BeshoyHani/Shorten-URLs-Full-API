@@ -5,7 +5,7 @@ import IUser from './../interfaces/user.interface.js';
 
 export const verifyUser = (_req: Request, res: Response, next: NextFunction): void => {
     try {
-        const data = decodeToken(_req.headers.authorization as string);
+        const data = decodeToken(_req.cookies.access_token as string);
         const user = data.user as IUser;
         _req.user = user;
         next();
@@ -15,8 +15,8 @@ export const verifyUser = (_req: Request, res: Response, next: NextFunction): vo
 }
 
 export const getUserID = (_req: Request, res: Response, next: NextFunction) => {
-    if (_req.headers.authorization) {
-        const data = decodeToken(_req.headers.authorization);
+    if (_req.cookies.access_token) {
+        const data = decodeToken(_req.cookies.access_token);
         const user = data.user as IUser;
         _req.user = user;
     } else {
