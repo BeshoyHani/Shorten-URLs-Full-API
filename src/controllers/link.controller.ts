@@ -11,7 +11,7 @@ export const redirect_to_original_URL = async (_req: Request, res: Response): Pr
         const originalURL = link?.originalURL as string
         res.status(301).redirect(originalURL);
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json((error as Error).message);
     }
 }
 
@@ -28,7 +28,7 @@ export const shorten_url = async (_req: Request, res: Response): Promise<void> =
             }, 5000);
         }
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json((error as Error).message);
     }
 }
 
@@ -39,7 +39,7 @@ export const search_for_URL = async (_req: Request, res: Response): Promise<void
         const links = await Link.searchForURL(userID, query);
         res.status(200).json(links);
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json((error as Error).message);
     }
 }
 
@@ -65,6 +65,16 @@ export const find_my_URLs = async (_req: Request, res: Response): Promise<void> 
     const pageNO = Number(_req.body.pageNo);
     try {
         const results = await Link.findMyURLs(userID, pageNO);
+        res.status(200).json(results);
+    } catch (error) {
+        res.status(500).json((error as Error).message);
+    }
+}
+
+export const get_URL_info = async (_req: Request, res: Response): Promise<void> => {
+    const id = _req.params.id as string;
+    try {
+        const results = await Link.getURLInfo(id);
         res.status(200).json(results);
     } catch (error) {
         res.status(500).json((error as Error).message);

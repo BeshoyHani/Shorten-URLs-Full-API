@@ -1,6 +1,6 @@
 import { Application, Router } from "express";
 import { body } from "express-validator";
-import { shorten_url, delete_link, search_for_URL, find_my_URLs, update_link_info } from "../controllers/link.controller.js";
+import { shorten_url, delete_link, search_for_URL, find_my_URLs, update_link_info, get_URL_info } from "../controllers/link.controller.js";
 import { redirect_to_original_URL } from './../controllers/link.controller.js';
 import { getUserID, verifyUser } from './../middlewares/authentication.js';
 import check_for_bad_request from './../middlewares/badRequest';
@@ -41,6 +41,9 @@ const router_handler = (app: Application): void => {
         body('pageNo').isInt({ min: 1 }).withMessage('Page No Must be Integer value greater than 0'),
         check_for_bad_request,
         find_my_URLs);
+
+    app.get('/my/link/:id', verifyUser,
+        get_URL_info);
 
 }
 export default router_handler;

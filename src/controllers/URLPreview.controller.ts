@@ -22,12 +22,16 @@ export const generate_preview_img = async (URL: string) => {
     const img_name = `${dir_path}/${head}${Date.now()}${tail}.jpeg`;
 
     await captureWebsite.file(URL, img_name, {
-        emulateDevice: 'iPhone X',
+        //emulateDevice: 'iPhone X',
+        
         type: "jpeg",
         quality: 0.6
     });
 
     const img_URL = await cloudinary.uploader.upload(img_name,
+        {
+            folder: 'urls_preview',
+        },
         async function (error, result) {
             await fs.unlink(img_name);
         });

@@ -4,7 +4,7 @@ import { validationResult } from "express-validator";
 const check_for_bad_request = (_req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(_req);
     if (!errors.isEmpty()) {
-        res.status(400).json({ errors: errors.array()[0].msg });
+        res.status(400).json(errors.array()[0].msg);
     } else {
         next();
     }

@@ -101,6 +101,18 @@ export default class Link {
         }
     }
 
+    async getURLInfo(id: string): Promise<ILink | null | undefined> {
+        try {
+            await connectDB();
+            const link = await Link_Model.findById(id);
+            disconnectDB();
+            return link;
+        } catch (err) {
+            disconnectDB();
+            console.log(err);
+        }
+    }
+
     async searchForURL(userID: string, keywords: string): Promise<ILink[] | null | undefined> {
         try {
             await connectDB();

@@ -14,7 +14,7 @@ export const verifyUser = (_req: Request, res: Response, next: NextFunction): vo
     }
 }
 
-export const getUserID = (_req: Request, res: Response, next: NextFunction) => {
+export const getUserID = (_req: Request, res: Response, next: NextFunction): void => {
     if (_req.cookies.access_token) {
         const data = decodeToken(_req.cookies.access_token);
         const user = data.user as IUser;
