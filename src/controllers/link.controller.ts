@@ -62,9 +62,10 @@ export const update_link_info = async (_req: Request, res: Response): Promise<vo
 
 export const find_my_URLs = async (_req: Request, res: Response): Promise<void> => {
     const userID = _req.user._id as string;
-    const pageNO = Number(_req.body.pageNo);
+    const category = _req.query.category as string;
+    const pageNO = Number(_req.query.page);
     try {
-        const results = await Link.findMyURLs(userID, pageNO);
+        const results = await Link.findMyURLs(userID, category, pageNO);
         res.status(200).json(results);
     } catch (error) {
         res.status(500).json((error as Error).message);
@@ -76,6 +77,17 @@ export const get_URL_info = async (_req: Request, res: Response): Promise<void> 
     try {
         const results = await Link.getURLInfo(id);
         res.status(200).json(results);
+    } catch (error) {
+        res.status(500).json((error as Error).message);
+    }
+}
+
+export const get_url_page_count = async (_req: Request, res: Response): Promise<void> => {
+    const userID = _req.user._id as string;
+    const category = _req.query.category as string;
+    try {
+        const count = await Link.getURLsPageCount(userID, category);
+        res.status(200).json({count});
     } catch (error) {
         res.status(500).json((error as Error).message);
     }

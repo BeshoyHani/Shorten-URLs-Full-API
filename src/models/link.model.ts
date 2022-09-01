@@ -89,10 +89,12 @@ export default class Link {
         }
     }
 
-    async findMyURLs(userID: string, pageNo: number): Promise<ILink[] | null | undefined> {
+    async findMyURLs(userID: string, category: string, pageNo: number): Promise<ILink[] | null | undefined> {
         try {
             await connectDB();
-            const link = await Link_Model.find({ userID: userID }, null, { limit: resultsPerPage, skip: (pageNo - 1) * resultsPerPage });
+            category = category.toLowerCase() == 'all' ? '' : category;
+            const link = await Link_Model.find({ userID: userID, category: { '$regex': category, '$options': 'i' } },
+                null, { limit: resultsPerPage, skip: (pageNo - 1) * resultsPerPage });
             disconnectDB();
             return link;
         } catch (err) {
@@ -127,6 +129,19 @@ export default class Link {
             });
             disconnectDB();
             return link;
+        } catch (err) {
+            disconnectDB();
+            console.log(err);
+        }
+    }
+
+    async getURLsPageCount(userID: string, category: string): Promise<Number | undefined> {
+        try {
+            await connectDB();
+            const count = category.toLowerCase() === 'all' ? await Link_Model.count({ userID: userID })
+                : await Link_Model.count({ userID: userID, category: { '$regex': category, '$options': 'i' } });
+            disconnectDB();
+            return parseInt((count / resultsPerPage) + (count % resultsPerPage ? 1 : 0) + '');
         } catch (err) {
             disconnectDB();
             console.log(err);
