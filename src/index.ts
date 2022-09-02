@@ -14,6 +14,10 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
+app.use((_req: Request, res: Response, next: NextFunction) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    next()
+})
 user_router(app);
 link_router(app);
 
