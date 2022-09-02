@@ -9,7 +9,7 @@ export const redirect_to_original_URL = async (_req: Request, res: Response): Pr
     try {
         const link = await Link.getOriginalURL(shortURL);
         const originalURL = link?.originalURL as string
-        res.status(301).redirect(originalURL);
+        res.status(301).redirect(originalURL)
     } catch (error) {
         res.status(500).json((error as Error).message);
     }
@@ -87,7 +87,7 @@ export const get_url_page_count = async (_req: Request, res: Response): Promise<
     const category = _req.query.category as string;
     try {
         const count = await Link.getURLsPageCount(userID, category);
-        res.status(200).json({count});
+        res.status(200).json({ count });
     } catch (error) {
         res.status(500).json((error as Error).message);
     }
