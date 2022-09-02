@@ -11,10 +11,7 @@ const port = process.env.PORT || 3000;
 //     res.end("beshoy Hani");
 // });
 
-app.use(cors({
-    origin: '*',
-    credentials: true
-}));
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 user_router(app);
