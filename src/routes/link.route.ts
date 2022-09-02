@@ -3,7 +3,7 @@ import { body, check, param } from "express-validator";
 import { shorten_url, delete_link, search_for_URL, find_my_URLs, update_link_info, get_URL_info, get_url_page_count} from "../controllers/link.controller.js";
 import { redirect_to_original_URL } from './../controllers/link.controller.js';
 import { getUserID, verifyUser } from './../middlewares/authentication.js';
-import check_for_bad_request from './../middlewares/badRequest';
+import check_for_bad_request from './../middlewares/badRequest.js';
 const link_router = Router();
 
 link_router.post('/shorten',

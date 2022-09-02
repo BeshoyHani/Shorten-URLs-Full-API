@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import LinkModel from '../models/link.model.js';
-import { generate_preview_img } from './URLPreview.controller';
+import { generate_preview_img } from './URLPreview.controller.js';
 
 const Link = new LinkModel();
 
