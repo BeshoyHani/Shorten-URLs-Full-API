@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import LinkModel from '../models/link.model.js';
 import { generate_preview_img } from './URLPreview.controller.js';
-
+const twelveHours = 43200000;
 const Link = new LinkModel();
 
 export const redirect_to_original_URL = async (_req: Request, res: Response): Promise<void> => {
@@ -18,14 +18,14 @@ export const redirect_to_original_URL = async (_req: Request, res: Response): Pr
 export const shorten_url = async (_req: Request, res: Response): Promise<void> => {
     const userID = _req.user._id as string;
     const { originalURL, title, description, category } = _req.body;
-    const url_preview_link = await generate_preview_img(originalURL);
+    const url_preview_link = userID? await generate_preview_img(originalURL): '';
     try {
         const link = await Link.shortenURL(userID, originalURL, title, category, url_preview_link);
         res.status(200).json(link);
         if (!userID) {
             setTimeout(() => {
                 Link.deleteURL(link?._id as string)
-            }, 5000);
+            }, twelveHours);
         }
     } catch (error) {
         res.status(500).json((error as Error).message);

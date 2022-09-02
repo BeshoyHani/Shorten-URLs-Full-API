@@ -49,7 +49,7 @@ const router_handler = (app: Application): void => {
         check_for_bad_request,
         find_my_URLs);
 
-    app.get('/my/link/:id', verifyUser,
+    app.get('/my/link/:id', getUserID,
         get_URL_info);
 
 }
