@@ -21,7 +21,7 @@ app.use(cors({
     ],
     "methods": 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
     "preflightContinue": true,
-    origin: 'http://be-h.vercel.ap',
+    origin: 'https://be-h.vercel.app',
     credentials: true
 }));
 
