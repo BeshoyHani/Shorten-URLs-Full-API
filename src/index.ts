@@ -21,7 +21,8 @@ app.use(cors({
     ],
     "methods": 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
     "preflightContinue": true,
-    "origin": '*',
+    origin: 'https://be-h.vercel.ap',
+    credentials: true
 }));
 
 app.use(cookieParser());
