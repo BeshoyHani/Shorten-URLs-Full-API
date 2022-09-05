@@ -11,19 +11,13 @@ const port = process.env.PORT || 3000;
 //     res.end("beshoy Hani");
 // });
 
-app.use(cors({
-    "allowedHeaders": [
-        'Origin', 'X-Requested-With',
-        'Content-Type', 'Accept',
-        'X-Access-Token', 'Authorization', 'Access-Control-Allow-Origin',
-        'Access-Control-Allow-Headers',
-        'Access-Control-Allow-Methods'
-    ],
-    "methods": 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-    "preflightContinue": true,
-    origin: 'https://be-h.vercel.app',
-    credentials: true
-}));
+app.use(function (_req: Request, res: Response, next: NextFunction) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    next();
+});
 
 app.use(cookieParser());
 app.use(express.json());
