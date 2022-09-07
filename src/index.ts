@@ -12,17 +12,23 @@ const port = process.env.PORT || 3000;
 //  });
 const allowedOrigins = ['https://be-h.vercel.app', 'https://be-h.netlify.app', 'http://localhost:4000'];
 
-app.use(function (_req: Request, res: Response, next: NextFunction) {
-    const origin = _req.headers.origin as string;
-    //if (allowedOrigins.includes(origin)) {
-        //console.log(origin)
-        //}
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    next();
-});
+// app.use(function (_req: Request, res: Response, next: NextFunction) {
+//     const origin = _req.headers.origin as string;
+//     //if (allowedOrigins.includes(origin)) {
+//         //console.log(origin)
+//         //}
+//     res.setHeader('Access-Control-Allow-Origin', origin);
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//     res.setHeader('Access-Control-Allow-Credentials', 'true');
+//     next();
+// });
+
+app.use(cors({
+    origin: allowedOrigins,
+    optionsSuccessStatus: 200,
+    credentials: true
+}));
 
 app.use(cookieParser());
 app.use(express.json());
