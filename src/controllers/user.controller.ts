@@ -20,7 +20,6 @@ export const login = async (_req: Request, res: Response): Promise<void> => {
         res
             .cookie("access_token", 'Bearer ' + token, {
                 httpOnly: true,
-                secure: true,
             })
             .status(200)
             .json({
