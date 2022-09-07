@@ -7,12 +7,13 @@ import cookieParser from 'cookie-parser';
 const app = express();
 const port = process.env.PORT || 3000;
 
-// app.get('/', async (_req: Request, res: Response, next: NextFunction) => {
-//     res.end("beshoy Hani");
-// });
+//  app.use( (_req: Request, res: Response, next: NextFunction) => {
+//      console.log(_req.headers.host)
+//  });
 
 app.use(function (_req: Request, res: Response, next: NextFunction) {
     res.setHeader('Access-Control-Allow-Origin', 'https://be-h.vercel.app');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4000');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', 'true');

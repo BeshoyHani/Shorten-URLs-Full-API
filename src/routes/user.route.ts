@@ -1,6 +1,6 @@
 import { Application, Router } from "express";
 import { body, oneOf } from "express-validator";
-import { login, register, update_user } from './../controllers/user.controller.js';
+import { login, logout, register, update_user } from './../controllers/user.controller.js';
 import { verifyUser } from './../middlewares/authentication.js';
 import check_for_bad_request from './../middlewares/badRequest.js';
 
@@ -18,6 +18,9 @@ user_router.post('/register',
     body('password').isLength({ min: 6 }).withMessage('password must be at least 6 digits long'),
     check_for_bad_request,
     register);
+
+user_router.post('/logout',
+    logout);
 
 export const router_handler = (app: Application): void => {
     app.post('/account/edit',

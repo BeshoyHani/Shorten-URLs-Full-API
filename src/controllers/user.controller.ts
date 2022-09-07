@@ -16,7 +16,7 @@ export const login = async (_req: Request, res: Response): Promise<void> => {
     const { username, email, password } = _req.body;
     try {
         const user = await User.login(username, email, password);
-        const token = jwt.sign({user}, process.env.TOKEN_SECRET as string);
+        const token = jwt.sign({ user }, process.env.TOKEN_SECRET as string);
         res
             .cookie("access_token", 'Bearer ' + token, {
                 httpOnly: true,
@@ -33,6 +33,10 @@ export const login = async (_req: Request, res: Response): Promise<void> => {
     } catch (error) {
         res.status(404).json((error as Error).message);
     }
+}
+
+export const logout = (_req: Request, res: Response): void => {
+    res.clearCookie("access_token").status(200).end();
 }
 
 export const register = async (_req: Request, res: Response): Promise<void> => {

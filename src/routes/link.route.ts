@@ -1,6 +1,6 @@
 import { Application, Router } from "express";
 import { body, check, param } from "express-validator";
-import { shorten_url, delete_link, search_for_URL, find_my_URLs, update_link_info, get_URL_info, get_url_page_count} from "../controllers/link.controller.js";
+import { shorten_url, delete_link, search_for_URL, find_my_URLs, update_link_info, get_URL_info, get_url_page_count } from "../controllers/link.controller.js";
 import { redirect_to_original_URL } from './../controllers/link.controller.js';
 import { getUserID, verifyUser } from './../middlewares/authentication.js';
 import check_for_bad_request from './../middlewares/badRequest.js';
@@ -30,9 +30,6 @@ link_router.post('/delete',
     check_for_bad_request,
     verifyUser, delete_link);
 
-link_router.get('/redirect/:URL',
-    redirect_to_original_URL);
-
 link_router.get('/count',
     check('category').exists().withMessage('Category is Required'),
     check_for_bad_request,
@@ -51,6 +48,9 @@ const router_handler = (app: Application): void => {
 
     app.get('/my/link/:id', getUserID,
         get_URL_info);
+
+    app.get('/:URL',
+        redirect_to_original_URL);
 
 }
 export default router_handler;

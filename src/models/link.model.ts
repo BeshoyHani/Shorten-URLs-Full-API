@@ -11,6 +11,9 @@ const Link_Schema = new mongoose.Schema<ILink>({
         type: String,
         required: true
     },
+
+    shortID: String,
+
     originalURL: {
         type: String,
         required: true
@@ -41,14 +44,15 @@ const Link_Model = mongoose.model('link', Link_Schema);
 
 export default class Link {
 
-    async shortenURL(userID: string, originalURL: string, title: string, category: string, url_preview: string):
+    async shortenURL(userID: string, originalURL: string, title: string, category: string, url_preview: string, baseHost: string):
         Promise<ILink | undefined> {
         try {
-            const shortURL = await nanoid(15);
+            const shortURL = await nanoid(10);
             await connectDB();
             const link = new Link_Model({
                 userID: userID,
-                shortURL: shortURL,
+                shortURL: `${baseHost}/${shortURL}`,
+                shortID: shortURL,
                 originalURL: originalURL,
                 title: title,
                 img: url_preview,
@@ -67,8 +71,8 @@ export default class Link {
     async getOriginalURL(shortID: string): Promise<ILink | null | undefined> {
         try {
             await connectDB();
-            const link = await Link_Model.findOne({ shortURL: shortID });
-            await Link_Model.findOneAndUpdate({ shortURL: shortID }, { $inc: { clicks: 1 } });
+            const link = await Link_Model.findOne({ shortID: shortID });
+            await Link_Model.findOneAndUpdate({ shortID: shortID }, { $inc: { clicks: 1 } });
             disconnectDB();
             return link;
         } catch (err) {

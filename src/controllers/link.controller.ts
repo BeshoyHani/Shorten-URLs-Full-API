@@ -16,11 +16,12 @@ export const redirect_to_original_URL = async (_req: Request, res: Response): Pr
 }
 
 export const shorten_url = async (_req: Request, res: Response): Promise<void> => {
+    const baseHost =_req.headers.host as string;
     const userID = _req.user._id as string;
     const { originalURL, title, description, category } = _req.body;
     const url_preview_link = userID? await generate_preview_img(originalURL): '';
     try {
-        const link = await Link.shortenURL(userID, originalURL, title, category, url_preview_link);
+        const link = await Link.shortenURL(userID, originalURL, title, category, url_preview_link, baseHost);
         res.status(200).json(link);
         if (!userID) {
             setTimeout(() => {
