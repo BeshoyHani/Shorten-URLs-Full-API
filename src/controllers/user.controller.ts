@@ -18,9 +18,7 @@ export const login = async (_req: Request, res: Response): Promise<void> => {
         const user = await User.login(username, email, password);
         const token = jwt.sign({ user }, process.env.TOKEN_SECRET as string);
         res
-            .cookie("access_token", 'Bearer ' + token, {
-                httpOnly: true,
-            })
+            .cookie("access_token", 'Bearer ' + token)
             .status(200)
             .json({
                 user:

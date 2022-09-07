@@ -27,7 +27,6 @@ const allowedOrigins = ['https://be-h.vercel.app', 'https://be-h.netlify.app', '
 app.use(cors({
     origin: allowedOrigins,
     optionsSuccessStatus: 200,
-    credentials: true
 }));
 
 app.use(cookieParser());
