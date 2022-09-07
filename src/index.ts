@@ -14,10 +14,10 @@ const allowedOrigins = ['https://be-h.vercel.app', 'https://be-h.netlify.app', '
 
 app.use(function (_req: Request, res: Response, next: NextFunction) {
     const origin = _req.headers.origin as string;
-    console.log(origin)
-    if (allowedOrigins.includes(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-    }
+    //if (allowedOrigins.includes(origin)) {
+        //console.log(origin)
+        //}
+    res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
