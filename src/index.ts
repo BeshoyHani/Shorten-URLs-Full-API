@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 //  app.use( (_req: Request, res: Response, next: NextFunction) => {
 //      console.log(_req.headers.host)
 //  });
-const allowedOrigins = ['https://be-h.vercel.app', 'https://be-h.netlify.app', 'http://localhost:4000'];
+//const allowedOrigins = ['https://be-h.vercel.app', 'https://be-h.netlify.app', 'http://localhost:4000'];
 
 // app.use(function (_req: Request, res: Response, next: NextFunction) {
 //     const origin = _req.headers.origin as string;
@@ -25,7 +25,7 @@ const allowedOrigins = ['https://be-h.vercel.app', 'https://be-h.netlify.app', '
 // });
 
 app.use(cors({
-    origin: allowedOrigins,
+    origin: '*',
     optionsSuccessStatus: 200,
     credentials: true
 }));

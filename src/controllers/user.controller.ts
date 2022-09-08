@@ -18,14 +18,14 @@ export const login = async (_req: Request, res: Response): Promise<void> => {
         const user = await User.login(username, email, password);
         const token = jwt.sign({ user }, process.env.TOKEN_SECRET as string);
         res
-            .cookie("access_token", 'Bearer ' + token)
             .status(200)
             .json({
                 user:
                 {
                     email: user.email,
                     username: user.username
-                }
+                },
+                token: `Bearer ${token}`
             });
     } catch (error) {
         res.status(404).json((error as Error).message);
