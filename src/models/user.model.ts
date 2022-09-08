@@ -29,7 +29,7 @@ export default class User {
             if (is_correct_pwd) {
                 return user as IUser;
             } else {
-                throw Error('Password Does not Match');
+                throw Error('Password isn\'t correct');
             }
         } catch (error) {
             disconnectDB();

@@ -21,7 +21,7 @@ export const shorten_url = async (_req: Request, res: Response): Promise<void> =
     const { originalURL, title, description, category } = _req.body;
     let url_preview_link;
     try {
-        url_preview_link = userID ? await generate_preview_img(originalURL) : '';
+        url_preview_link = await generate_preview_img(originalURL);
     } catch (error) {
         url_preview_link = '';
     }
