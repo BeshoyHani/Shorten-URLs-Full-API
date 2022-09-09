@@ -5,7 +5,7 @@ import user_router from './routes/user.route.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; 
 
 //  app.use( (_req: Request, res: Response, next: NextFunction) => {
 //      console.log(_req.headers.host)
