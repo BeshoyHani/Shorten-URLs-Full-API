@@ -23,7 +23,7 @@ export const shorten_url = async (_req: Request, res: Response): Promise<void> =
     try {
         url_preview_link = await generate_preview_img(originalURL);
     } catch (error) {
-        console.log(error)
+        console.log((error as Error).message)
         url_preview_link = '';
     }
     try {
