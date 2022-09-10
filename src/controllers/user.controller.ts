@@ -22,6 +22,7 @@ export const login = async (_req: Request, res: Response): Promise<void> => {
             .json({
                 user:
                 {
+                    id: user._id,
                     email: user.email,
                     username: user.username
                 },

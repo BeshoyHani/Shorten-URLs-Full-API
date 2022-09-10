@@ -39,8 +39,20 @@ export const shorten_url = async (_req: Request, res: Response): Promise<void> =
     }
 }
 
+export const import_url = async (_req: Request, res: Response): Promise<void> => {
+    const userID = _req.user._id as string;
+    const { originalURL, title, ownerID, category, shortURL, img } = _req.body;
+    try {
+        const link = await Link.importURL(userID, ownerID, originalURL, shortURL, title, category, img);
+        res.status(200).json(link);
+    } catch (error) {
+        res.status(500).json((error as Error).message);
+    }
+}
+
+
 export const search_for_URL = async (_req: Request, res: Response): Promise<void> => {
-    const query = _req.body.query as string;
+    const query = _req.query.query as string;
     const userID = _req.user._id as string;
     try {
         const links = await Link.searchForURL(userID, query);

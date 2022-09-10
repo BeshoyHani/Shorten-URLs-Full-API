@@ -1,6 +1,7 @@
 import captureWebsite from 'capture-website';
 import { v2 as cloudinary } from 'cloudinary';
 import { promises as fs } from 'fs';
+import { getLinkPreview } from 'link-preview-js';
 
 import path from 'path';
 const __dirname = path.resolve();
@@ -21,19 +22,26 @@ export const generate_preview_img = async (URL: string) => {
     const tail = getRandomArbitrary(1, 1000);
     const img_name = `${dir_path}/${head}${Date.now()}${tail}.jpeg`;
 
-    await captureWebsite.file(URL, img_name, {
-        //emulateDevice: 'iPhone X',
-        
-        type: "jpeg",
-        quality: 0.6
-    });
+    const imgURL = await getLinkPreview(URL);
 
-    const img_URL = await cloudinary.uploader.upload(img_name,
-        {
-            folder: 'urls_preview',
-        },
-        async function (error, result) {
-            await fs.unlink(img_name);
-        });
-    return img_URL?.url;
+    // await captureWebsite.file(URL, img_name, {
+    //     //emulateDevice: 'iPhone X',
+
+    //     type: "jpeg",
+    //     quality: 0.6
+    // });
+
+    // const img_URL = await cloudinary.uploader.upload(img_name,
+    //     {
+    //         folder: 'urls_preview',
+    //     },
+    //     async function (error, result) {
+    //         await fs.unlink(img_name);
+    //     });
+    const result = {
+        images: [],
+        ...imgURL,
+    }
+    console.log(result.images[0])
+    return  result.images[0]? result.images[0]: '';//img_URL?.url;
 }

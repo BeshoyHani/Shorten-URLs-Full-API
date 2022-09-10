@@ -37,6 +37,10 @@ const Link_Schema = new mongoose.Schema<ILink>({
     category: {
         type: String,
         default: 'None'
+    },
+    creatorID: {
+        type: String,
+        require: true
     }
 });
 
@@ -51,8 +55,34 @@ export default class Link {
             await connectDB();
             const link = new Link_Model({
                 userID: userID,
+                creatorID: userID,
                 shortURL: `${baseHost}/${shortURL}`,
                 shortID: shortURL,
+                originalURL: originalURL,
+                title: title,
+                img: url_preview,
+                category: category
+            });
+            await link.save();
+            disconnectDB();
+            return link;
+
+        } catch (err) {
+            disconnectDB();
+            console.log(err);
+        }
+    }
+
+
+    async importURL(userID: string, creatorID: string, originalURL: string, shortURL: string, title: string, category: string, url_preview: string):
+        Promise<ILink | undefined> {
+        try {
+            await connectDB();
+            const link = new Link_Model({
+                userID: userID,
+                creatorID: creatorID,
+                shortURL: shortURL,
+                shortID: shortURL.split('/')[1],
                 originalURL: originalURL,
                 title: title,
                 img: url_preview,
@@ -131,11 +161,11 @@ export default class Link {
                     }
                 ]
             });
-            disconnectDB();
+            await disconnectDB();
             return link;
         } catch (err) {
-            disconnectDB();
-            console.log(err);
+            await disconnectDB();
+            console.log((err as Error).message);
         }
     }
 
